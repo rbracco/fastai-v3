@@ -11,7 +11,7 @@ from fastai.vision import *
 export_file_url = 'https://drive.google.com/uc?export=download&id=1k_I6upTE7aishQNm_cu9JnJmKv-36xqk'
 export_file_name = 'export.pkl'
 
-classes = ['black', 'grizzly', 'teddys']
+classes = ['bell', 'habanero', 'jalapeño', 'poblano']
 path = Path(__file__).parent
 
 app = Starlette()
@@ -54,8 +54,11 @@ async def analyze(request):
     img_bytes = await (data['file'].read())
     img = open_image(BytesIO(img_bytes))
     prediction, label, probability = learn.predict(img)
-    
-    return JSONResponse({'result': str(prediction), 'probability':str(probability)})
+    classes = data.classes
+    prob_string = ""
+    for class, prob in zip(classes, probability):
+        prob_string.append(f"{class} : <strong>{round(prob*100, 2)}%</strong><br>")
+    return JSONResponse({'result': str(prediction), 'probability':prob_string})
 
 if __name__ == '__main__':
     if 'serve' in sys.argv: uvicorn.run(app=app, host='0.0.0.0', port=5042)
