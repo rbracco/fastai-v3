@@ -56,8 +56,8 @@ async def analyze(request):
     prediction, label, probability = learn.predict(img)
     classes = data.classes
     prob_string = ""
-    for class, prob in zip(classes, probability):
-        prob_string.append(f"{class} : <strong>{round(prob*100, 2)}%</strong><br>")
+    for classname, prob in zip(classes, probability):
+        prob_string.append(f"{classname} : <strong>{round(prob*100, 2)}%</strong><br>")
     return JSONResponse({'result': str(prediction), 'probability':prob_string})
 
 if __name__ == '__main__':
