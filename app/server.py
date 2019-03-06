@@ -54,7 +54,7 @@ async def analyze(request):
     img_bytes = await (data['file'].read())
     img = open_image(BytesIO(img_bytes))
     prediction, label, probability = learn.predict(img)
-    classes = data.classes
+    classes = ['bell', 'habanero', 'jalapeño', 'poblano']
     prob_string = ""
     for classname, prob in zip(classes, probability):
         prob_string += f"{classname} : <strong>{round(prob*100, 2)}%</strong><br>"
