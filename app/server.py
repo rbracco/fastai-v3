@@ -57,7 +57,7 @@ async def analyze(request):
     classes = data.classes
     prob_string = ""
     for classname, prob in zip(classes, probability):
-        prob_string.append(f"{classname} : <strong>{round(prob*100, 2)}%</strong><br>")
+        prob_string += f"{classname} : <strong>{round(prob*100, 2)}%</strong><br>"
     return JSONResponse({'result': str(prediction), 'probability':prob_string})
 
 if __name__ == '__main__':
